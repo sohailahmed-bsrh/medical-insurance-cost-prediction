@@ -1,122 +1,119 @@
-# Medical Insurance Cost Predictive Regression
+# Medical Insurance Cost Prediction - Actuarial Regression Engine
 
-> Statistical modeling framework forecasting individual medical insurance charges from health indicators.
-
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github)](https://github.com/sohailahmed-bsrh/medical-insurance-cost-prediction)
-[![Live Showcase](https://img.shields.io/badge/Live-Showcase-0A66C2?style=flat-square&logo=googlechrome)](https://sohail.devsil.com/projects.html)
-[![Author](https://img.shields.io/badge/Author-Sohail%20Ahmed-20BEFF?style=flat-square)](https://sohail.devsil.com)
-
----
-
-## Overview
-
-Insurance underwriters require accurate cost predictions based on demographic risk factors like smoking, BMI, and age.
-
-This project provides an end-to-end, reproducible implementation engineered to solve this challenge through verified data transformations, reliable algorithms, and production-ready architecture.
+<p align="center">
+  <a href="https://sohail.devsil.com"><strong>Portfolio</strong></a> | 
+  <a href="https://github.com/sohailahmed-bsrh"><strong>GitHub Profile</strong></a> | 
+  <a href="https://github.com/sohailahmed-bsrh/medical-insurance-cost-prediction"><strong>Source Repository</strong></a>
+</p>
 
 ---
 
-## Key Features
+## Executive Summary & Problem Statement
 
-- Univariate and bivariate statistical analysis exploring health risk determinants
-- Linear, Ridge, and Polynomial regression modeling estimating healthcare claims
-- Residual analysis evaluating heteroscedasticity and model assumptions
-- Mean Absolute Error (MAE) and R-squared metric benchmarking
+Health insurance underwriting relies on estimating individual expected medical expenditures. Flawed actuarial estimation leads to adverse selection: underpricing premiums triggers severe underwriting deficits, while overpricing premiums drives away healthy policyholders. Non-linear interactions between demographic attributes (e.g., age, BMI, smoking status) make traditional linear models insufficient.
+
+This repository implements an **Actuarial Healthcare Cost Prediction Engine**. Using non-linear polynomial transformations, regularized regression techniques (Ridge, Lasso), and ensemble gradient boosting (XGBoost, Random Forest), it accurately projects annual healthcare expenses while isolating cost drivers.
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/sohailahmed-bsrh/myportfolio/main/assets/images/thumbnail/healthcare-cost-prediction.png" width="650" alt="Healthcare Cost Prediction Engine"/>
+  <p><em>Actuarial risk regression engine modeling non-linear demographic and clinical cost drivers.</em></p>
+</div>
 
 ---
 
-## System Architecture
+## Real-World Industry Applications
 
-```mermaid
-flowchart TD
-    Beneficiaries[Patient Demographic & Health Records] --> EDA[Exploratory Factor Analysis]
-    EDA --> Transform[Polynomial Feature Expansion & Scaling]
-    Transform --> Regressors[Linear / Regularized Regression Models]
-    Regressors --> Residuals[Residual Analysis & Error Metrics]
-    Residuals --> CostForecast[Predicted Annual Premium Estimate]
+- **Actuarial Premium Underwriting**: Computes risk-adjusted policy pricing based on medical risk profiles.
+- **Corporate Health Benefit Planning**: Estimates future healthcare liability budgets for self-insured corporate employers.
+- **Preventative Health Incentives**: Quantifies cost savings resulting from corporate wellness programs (e.g., smoking cessation, BMI reduction).
+- **Healthcare Risk Stratification**: Identifies high-risk patient cohorts for proactive chronic disease case management.
+
+---
+
+## Technical Architecture & Engineering Walkthrough
+
+```
+                      [Actuarial Policyholder Dataset]
+                                     │
+                                     ▼
+                   [Exploratory Data & Outlier Analysis]
+                                     │
+                                     ▼
+                 [Feature Engineering & Interaction Modeling]
+                   (BMI x Smoker, Age Polynomial Powers)
+                                     │
+         ┌───────────────────────────┼───────────────────────────┐
+         ▼                           ▼                           ▼
+  [Ridge / Lasso]             [Random Forest]               [XGBoost]
+(L1/L2 Regularization)    (Non-Linear Tree Ensemble)   (Gradient Boosted Regressor)
+         │                           │                           │
+         └───────────────────────────┼───────────────────────────┘
+                                     │
+                                     ▼
+                  [Residual Diagnostics & Homoscedasticity]
+                                     │
+                                     ▼
+               [Evaluation Metrics: R-Squared, RMSE, MAE]
 ```
 
----
+### Step 1: Exploratory Analysis & Skewness Correction
+Examines medical charge distributions (`dataset/insurance.ipynb`), identifying significant right-skewness. Evaluates log transformations `log(charges)` to stabilize variance and satisfy homoscedasticity assumptions.
 
-## Technology Stack
+### Step 2: Non-Linear Interaction Engineering
+Isolates critical interaction terms: while high BMI alone causes moderate cost inflation, the composite interaction `BMI x Smoker` triggers exponential cost escalation. Generates second-order polynomial features to capture compound clinical risks.
 
-| Technology | Version / Spec | Role in Architecture |
-| :--- | :--- | :--- |
-| **Python** | `3.10+` | Scientific calculation runtime |
-| **Scikit-learn** | `1.3+` | Regression estimators, cross-validation, and metrics |
-| **Pandas & NumPy** | `2.0+` | Data transformations and mathematical arrays |
-| **Seaborn** | `0.12+` | Regression scatter plots with trend confidence intervals |
+### Step 3: Regularized Linear Baselines (Ridge & Lasso)
+Fits L1 (Lasso) and L2 (Ridge) regularized regression pipelines to penalize collinear features and prevent coefficient overfitting.
 
----
+### Step 4: Non-Linear Ensemble Modeling
+Trains Random Forest Regressors and Gradient Boosted Trees (XGBoost). Employs cross-validation with grid search to tune tree depth, learning rate, and minimum samples per leaf.
 
-## Repository Structure
-
-```text
-medical-insurance-cost-prediction/
-|-- dataset/
-|   `-- insurance.ipynb
-|-- notebooks/
-|-- data/
-|-- .gitignore
-|-- requirements.txt
-`-- README.md
-```
+### Step 5: Residual Diagnostics & Performance Auditing
+Evaluates model accuracy using $R^2$ Score, Root Mean Squared Error (RMSE), and Mean Absolute Error (MAE). Generates residual quantile plots (Q-Q plots) to verify error normality.
 
 ---
 
-## Installation and Execution
+## Technology Stack & Implementation Specifications
 
-### Prerequisites
-- Python 3.10 or higher
-- Git version control
-- Virtual environment manager (`venv`)
+| Component | Technology | Version | Architectural Function |
+| :--- | :--- | :--- | :--- |
+| **Machine Learning** | Scikit-Learn | 1.3+ | Pipeline modeling, Ridge, Lasso, Random Forest, metrics |
+| **Gradient Boosting** | XGBoost | 2.0+ | Non-linear regression tree boosting |
+| **Data Manipulation** | Pandas / NumPy | 2.x | Tabular parsing, log transformations, dummy encoding |
+| **Statistical Plotting** | Seaborn / Matplotlib | 3.8+ | Correlation heatmaps, residual distribution plots |
 
-### Setup Instructions
-1. Clone the repository:
+---
+
+## Installation & Execution Guide
+
 ```bash
 git clone https://github.com/sohailahmed-bsrh/medical-insurance-cost-prediction.git
 cd medical-insurance-cost-prediction
-```
-
-2. Configure environment and dependencies:
-```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Windows: venv\Scriptsctivate | Unix: source venv/bin/activate
 pip install -r requirements.txt
-jupyter notebook
+jupyter notebook dataset/insurance.ipynb
 ```
-
----
-
-## Interface and Verification
-The system produces verifiable execution logs, prediction matrices, or interactive browser interfaces depending on the target mode. Verify operation by executing the commands specified above or inspecting the demonstration notebooks.
-
----
-
-## Author and Contact
-Developed by **Sohail Ahmed** — Full Stack AI Engineer & Machine Learning Specialist.
-- **Portfolio:** [sohail.devsil.com](https://sohail.devsil.com)
-- **GitHub:** [@sohailahmed-bsrh](https://github.com/sohailahmed-bsrh)
-- **Email:** [sohail.bsrh@gmail.com](mailto:sohail.bsrh@gmail.com)
 
 ---
 
 ## Author & Contact Information
 
-<table width="100%" align="center">
+<table width="100%">
   <tr>
-    <td align="center" style="padding: 20px;">
+    <td width="150" align="center" valign="middle">
+      <img src="https://avatars.githubusercontent.com/u/231165170?v=4" width="120" style="border-radius: 50%;" alt="Sohail Ahmed"/>
+    </td>
+    <td>
       <h3>Sohail Ahmed</h3>
-      <p><strong>Full-Stack Artificial Intelligence & Computer Vision Engineer</strong></p>
+      <p><strong>Senior Software Engineer & AI Systems Architect</strong></p>
+      <p>Specializing in Full-Stack AI Application Development, Computer Vision, Deep Learning Pipelines, and Scalable Automation Architectures.</p>
       <p>
-        <a href="https://sohail.devsil.com"><img src="https://img.shields.io/badge/Live_Portfolio-sohail.devsil.com-0052FF?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio"/></a>
-        <a href="https://github.com/sohailahmed-bsrh"><img src="https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/></a>
-        <a href="https://linkedin.com/in/sohail-ahmed-dev"><img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
-        <a href="mailto:sohail.bsrh@gmail.com"><img src="https://img.shields.io/badge/Email-Contact_Me-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/></a>
+        <a href="https://sohail.devsil.com"><strong>Portfolio Website</strong></a> | 
+        <a href="https://github.com/sohailahmed-bsrh"><strong>GitHub Profile</strong></a> | 
+        <a href="https://www.linkedin.com/in/sohail-ahmed-546314316/"><strong>LinkedIn</strong></a> | 
+        <a href="mailto:se906403@gmail.com"><strong>Email Contact</strong></a>
       </p>
-      <p><em>Available for technical roles in Artificial Intelligence, Computer Vision, and Full-Stack Engineering.</em></p>
-      <hr style="border: 0; height: 1px; background: #30363d; margin: 15px 0;">
-      <small>Distributed under the MIT License.</small>
     </td>
   </tr>
 </table>
