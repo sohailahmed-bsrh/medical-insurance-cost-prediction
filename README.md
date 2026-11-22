@@ -12,7 +12,7 @@
 
 Insurance underwriters require accurate cost predictions based on demographic risk factors like smoking, BMI, and age.
 
-This project provides an end-to-end, reproducible implementation engineered to solve this challenge through verified data transformations, robust algorithms, and production-ready architecture.
+This project provides an end-to-end, reproducible implementation engineered to solve this challenge through verified data transformations, reliable algorithms, and production-ready architecture.
 
 ---
 
