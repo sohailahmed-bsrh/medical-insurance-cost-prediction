@@ -1,121 +1,70 @@
-# Medical Insurance Cost Prediction - Actuarial Regression Engine
+# ⚕️ Healthcare Cost Prediction & Patient Risk Segmentation
 
-<p align="center">
-  <a href="https://sohail.devsil.com"><strong>Portfolio</strong></a> | 
-  <a href="https://github.com/sohailahmed-bsrh"><strong>GitHub Profile</strong></a> | 
-  <a href="https://github.com/sohailahmed-bsrh/medical-insurance-cost-prediction"><strong>Source Repository</strong></a>
-</p>
+An actuarial healthcare expenditure and predictive risk stratification web application built with Python and Streamlit. This project analyzes 1,338 patient records to evaluate lifestyle cost multipliers (smoking, BMI, age), benchmark multiple machine learning regression algorithms, and cluster patients into actuarial risk tiers using K-Means clustering.
 
----
-
-## Executive Summary & Problem Statement
-
-Health insurance underwriting relies on estimating individual expected medical expenditures. Flawed actuarial estimation leads to adverse selection: underpricing premiums triggers severe underwriting deficits, while overpricing premiums drives away healthy policyholders. Non-linear interactions between demographic attributes (e.g., age, BMI, smoking status) make traditional linear models insufficient.
-
-This repository implements an **Actuarial Healthcare Cost Prediction Engine**. Using non-linear polynomial transformations, regularized regression techniques (Ridge, Lasso), and ensemble gradient boosting (XGBoost, Random Forest), it accurately projects annual healthcare expenses while isolating cost drivers.
-
-<div align="center">
-  <img src="https://raw.githubusercontent.com/sohailahmed-bsrh/myportfolio/main/assets/images/thumbnail/healthcare-cost-prediction.png" width="650" alt="Healthcare Cost Prediction Engine"/>
-  <p><em>Actuarial risk regression engine modeling non-linear demographic and clinical cost drivers.</em></p>
-</div>
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## Real-World Industry Applications
+## 🌟 Key Features
 
-- **Actuarial Premium Underwriting**: Computes risk-adjusted policy pricing based on medical risk profiles.
-- **Corporate Health Benefit Planning**: Estimates future healthcare liability budgets for self-insured corporate employers.
-- **Preventative Health Incentives**: Quantifies cost savings resulting from corporate wellness programs (e.g., smoking cessation, BMI reduction).
-- **Healthcare Risk Stratification**: Identifies high-risk patient cohorts for proactive chronic disease case management.
-
----
-
-## Technical Architecture & Engineering Walkthrough
-
-```
-                      [Actuarial Policyholder Dataset]
-                                     │
-                                     ▼
-                   [Exploratory Data & Outlier Analysis]
-                                     │
-                                     ▼
-                 [Feature Engineering & Interaction Modeling]
-                   (BMI x Smoker, Age Polynomial Powers)
-                                     │
-         ┌───────────────────────────┼───────────────────────────┐
-         ▼                           ▼                           ▼
-  [Ridge / Lasso]             [Random Forest]               [XGBoost]
-(L1/L2 Regularization)    (Non-Linear Tree Ensemble)   (Gradient Boosted Regressor)
-         │                           │                           │
-         └───────────────────────────┼───────────────────────────┘
-                                     │
-                                     ▼
-                  [Residual Diagnostics & Homoscedasticity]
-                                     │
-                                     ▼
-               [Evaluation Metrics: R-Squared, RMSE, MAE]
-```
-
-### Step 1: Exploratory Analysis & Skewness Correction
-Examines medical charge distributions (`dataset/insurance.ipynb`), identifying significant right-skewness. Evaluates log transformations `log(charges)` to stabilize variance and satisfy homoscedasticity assumptions.
-
-### Step 2: Non-Linear Interaction Engineering
-Isolates critical interaction terms: while high BMI alone causes moderate cost inflation, the composite interaction `BMI x Smoker` triggers exponential cost escalation. Generates second-order polynomial features to capture compound clinical risks.
-
-### Step 3: Regularized Linear Baselines (Ridge & Lasso)
-Fits L1 (Lasso) and L2 (Ridge) regularized regression pipelines to penalize collinear features and prevent coefficient overfitting.
-
-### Step 4: Non-Linear Ensemble Modeling
-Trains Random Forest Regressors and Gradient Boosted Trees (XGBoost). Employs cross-validation with grid search to tune tree depth, learning rate, and minimum samples per leaf.
-
-### Step 5: Residual Diagnostics & Performance Auditing
-Evaluates model accuracy using $R^2$ Score, Root Mean Squared Error (RMSE), and Mean Absolute Error (MAE). Generates residual quantile plots (Q-Q plots) to verify error normality.
+- **Expenditure Analytics Dashboard:** Tracks cohort size, mean annual premiums, median age, and lifestyle risk factors.
+- **The Smoker-BMI Multiplier:** Interactive visualizations illustrating how tobacco usage exponentially multiplies healthcare liabilities in patients with BMI > 30.
+- **Unsupervised Risk Segmentation (K-Means):** Groups patients into 3 distinct actuarial tiers (Low Risk, Moderate Risk, High Actuarial Risk) using combined Age, BMI, and Expenditure interactions.
+- **Live Actuarial Premium Estimator:** Real-time Gradient Boosting regression simulator forecasting annual premiums and calculating exact dollar surcharges attributable to tobacco use.
+- **Model Benchmark Suite:** Rigorous cross-model evaluation comparing Linear Regression, Ridge, Lasso, Random Forest, and Gradient Boosting ($R^2$, MAE, RMSE).
 
 ---
 
-## Technology Stack & Implementation Specifications
+## 📊 Analytical Insights
 
-| Component | Technology | Version | Architectural Function |
-| :--- | :--- | :--- | :--- |
-| **Machine Learning** | Scikit-Learn | 1.3+ | Pipeline modeling, Ridge, Lasso, Random Forest, metrics |
-| **Gradient Boosting** | XGBoost | 2.0+ | Non-linear regression tree boosting |
-| **Data Manipulation** | Pandas / NumPy | 2.x | Tabular parsing, log transformations, dummy encoding |
-| **Statistical Plotting** | Seaborn / Matplotlib | 3.8+ | Correlation heatmaps, residual distribution plots |
+1. **Tobacco Penalty:** Smokers pay an average premium nearly **4x higher** than comparable non-smokers.
+2. **Non-Linear Compounding:** Gradient Boosting achieves the superior $R^2 \approx 0.87$, successfully capturing the non-linear interaction between elevated BMI and smoking status that standard linear models miss.
 
 ---
 
-## Installation & Execution Guide
+## 💻 Local Setup & Execution
 
-```bash
-git clone https://github.com/sohailahmed-bsrh/medical-insurance-cost-prediction.git
-cd medical-insurance-cost-prediction
-python -m venv venv
-# Windows: venv\Scriptsctivate | Unix: source venv/bin/activate
-pip install -r requirements.txt
-jupyter notebook dataset/insurance.ipynb
-```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/sohailahmed-bsrh/medical-insurance-cost-prediction.git
+   cd medical-insurance-cost-prediction
+   ```
+
+2. **Create a virtual environment:**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Launch the Streamlit app:**
+   ```bash
+   streamlit run app.py
+   ```
 
 ---
 
-## Author & Contact Information
+## 🚀 Deployment on Streamlit Community Cloud
 
-<table width="100%">
-  <tr>
-    <td width="150" align="center" valign="middle">
-      <img src="https://avatars.githubusercontent.com/u/231165170?v=4" width="120" style="border-radius: 50%;" alt="Sohail Ahmed"/>
-    </td>
-    <td>
-      <h3>Sohail Ahmed</h3>
-      <p><strong>Senior Software Engineer & AI Systems Architect</strong></p>
-      <p>Specializing in Full-Stack AI Application Development, Computer Vision, Deep Learning Pipelines, and Scalable Automation Architectures.</p>
-      <p>
-        <a href="https://sohail.devsil.com"><strong>Portfolio Website</strong></a> | 
-        <a href="https://github.com/sohailahmed-bsrh"><strong>GitHub Profile</strong></a> | 
-        <a href="https://www.linkedin.com/in/sohail-ahmed-devsil/"><strong>LinkedIn</strong></a> | 
-        <a href="https://www.kaggle.com/sohail2411126"><strong>Kaggle</strong></a> | 
-        <a href="https://x.com/ahmed241126"><strong>Twitter/X</strong></a> | 
-        <a href="mailto:se906403@gmail.com"><strong>Email Contact</strong></a>
-      </p>
-    </td>
-  </tr>
-</table>
+1. Fork or push this repository to your GitHub account (`https://github.com/sohailahmed-bsrh/medical-insurance-cost-prediction`).
+2. Visit [share.streamlit.io](https://share.streamlit.io/) and log in with your GitHub account.
+3. Click **New app**.
+4. Select repository: `sohailahmed-bsrh/medical-insurance-cost-prediction`
+5. Branch: `main`
+6. Main file path: `app.py`
+7. Click **Deploy!**
+
+---
+
+## 👤 Author
+
+**Sohail Ahmed**
+- **GitHub:** [@sohailahmed-bsrh](https://github.com/sohailahmed-bsrh)
+- **Portfolio:** [https://sohail.devsil.com](https://sohail.devsil.com)
